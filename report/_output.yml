@@ -1,0 +1,15 @@
+bookdown::gitbook:
+  lib_dir: assets
+  split_by: rmd
+  config:
+    toolbar:
+      position: static
+    sharing: no
+bookdown::pdf_book:
+  config:
+    toc: false
+  toc: false
+  keep_tex: yes
+  template: null
+  pandoc_args: --top-level-division=chapter
+  links-as-notes: true

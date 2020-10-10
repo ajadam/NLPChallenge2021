@@ -1,0 +1,34 @@
+---
+title: "Job category classification and Disparate impact"
+author:
+  - Antoine Adam
+  - Dylan Monfret
+  - Loïc Rakotoson
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+bibliography: [../monitor/soa.bib, ../monitor/disparateimpact.bib]
+biblio-style: "apalike"
+link-citations: true
+nocite: "@*"
+colorlinks: yes
+# toc: false
+documentclass: report
+---
+
+# Abstract {-}
+
+Abstract for our project in nlp and stuff. To what problem in real life data do our solution answer ? Like job classification but above all disparate impact.
+
+
+\tableofcontents
+
+
+\listoftables
+
+
+\listoffigures
+
+
+# Introduction {-}
+
+Introduction sentences and description of the project context. Like we are in master degree and participate to this challenge, so what basically is our roadmap, how do we begin, how far should we go, where do we end up.
