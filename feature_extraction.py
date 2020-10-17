@@ -41,4 +41,5 @@ desc = desc.apply(clean_text)
 # Vectorisation
 vectorizer = CountVectorizer()
 X = vectorizer.fit_transform(desc)
+matrice_desc = X.toarray()
 
