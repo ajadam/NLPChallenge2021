@@ -13,6 +13,7 @@ import re
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
+from sklearn.feature_extraction.text import CountVectorizer
 wnl = WordNetLemmatizer()
 sw = set(stopwords.words('english'))
 
@@ -22,7 +23,7 @@ def clean_text(text):
     tokens = word_tokenize(text)
     tokens = [tok for tok in tokens if tok not in sw]
     tokens = [wnl.lemmatize(tok) for tok in tokens]
-    return tokens
+    return " ".join(tokens)
 
 
 data = pd.read_json('data/train.json').set_index('Id')
@@ -30,10 +31,14 @@ data = pd.read_json('data/train.json').set_index('Id')
 
 """
 TODO (Antoine) : utiliser le module dask.dataframe pour essayer
-                 d'accelérer le calcul
+                 d'accelérer le calcul ci-dessous
 
 """
 desc = data.loc[:, 'description'].copy()
 desc = desc.apply(clean_text)
 
+
+# Vectorisation
+vectorizer = CountVectorizer()
+X = vectorizer.fit_transform(desc)
 
