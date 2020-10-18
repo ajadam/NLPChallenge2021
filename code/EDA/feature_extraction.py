@@ -26,7 +26,7 @@ def clean_text(text):
     return " ".join(tokens)
 
 
-data = pd.read_json('data/train.json').set_index('Id')
+data = pd.read_json('../../data/train.json').set_index('Id')
 
 
 """

@@ -1,0 +1,3 @@
+model_name,accuracy,precission,recall,f1-score,disparate_impact
+"baseline",,,,0.72561,
+"naive Logistic Regression*",0.7888102100387665,0.805705765801857,0.6600672375122506,0.7150762588724362,5.112365210475933

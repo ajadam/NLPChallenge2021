@@ -1,0 +1,10 @@
+one folder for a model (model finetuning + best model)
+append results to ../results.csv.
+format: {
+    model_name: str,
+    accuracy: dbl,
+    precission: dbl,
+    recall: dbl,
+    f1-score: dbl,
+    disparate_impact: dbl
+}
