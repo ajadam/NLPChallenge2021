@@ -8,17 +8,23 @@ Created on Sat Oct 17 11:41:09 2020
 Remarque importante : ne pas oublier de dl les données nltk en local !!
 """
 import pandas as pd
+import dask.dataframe as dd
+
 import string
 import re
+
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
+
 from sklearn.feature_extraction.text import CountVectorizer
+
+
+
 wnl = WordNetLemmatizer()
 sw = set(stopwords.words('english'))
 
 def clean_text(text):
-    text = text.lower()
     text = re.sub(rf'[{string.punctuation}]', '', text)
     tokens = word_tokenize(text)
     tokens = [tok for tok in tokens if tok not in sw]
@@ -28,18 +34,16 @@ def clean_text(text):
 
 data = pd.read_json('../../data/train.json').set_index('Id')
 
-
 """
-TODO (Antoine) : utiliser le module dask.dataframe pour essayer
-                 d'accelérer le calcul ci-dessous
-
+Prendre un nb de partitions adéquat
 """
-desc = data.loc[:, 'description'].copy()
-desc = desc.apply(clean_text)
+ddata = dd.from_pandas(data, npartitions = 8)
 
+desc = ddata.loc[:, 'description'].copy()
+desc_clean = desc.apply(clean_text, meta=('description', 'str'))
 
 # Vectorisation
 vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(desc)
+X = vectorizer.fit_transform(desc_clean)
 matrice_desc = X.toarray()
 
