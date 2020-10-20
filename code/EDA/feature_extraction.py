@@ -17,7 +17,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 
@@ -25,6 +25,7 @@ wnl = WordNetLemmatizer()
 sw = set(stopwords.words('english'))
 
 def clean_text(text):
+    text = text.lower()
     text = re.sub(rf'[{string.punctuation}]', '', text)
     tokens = word_tokenize(text)
     tokens = [tok for tok in tokens if tok not in sw]
@@ -43,7 +44,12 @@ desc = ddata.loc[:, 'description'].copy()
 desc_clean = desc.apply(clean_text, meta=('description', 'str'))
 
 # Vectorisation
-vectorizer = CountVectorizer()
+vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(desc_clean)
 matrice_desc = X.toarray()
+
+df = pd.DataFrame(matrice_desc, columns=vectorizer.get_feature_names())
+data_final = pd.concat([df, data.loc[:, 'gender']], axis = 1)
+
+
 
