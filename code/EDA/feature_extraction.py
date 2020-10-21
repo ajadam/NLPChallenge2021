@@ -23,10 +23,12 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 wnl = WordNetLemmatizer()
 sw = set(stopwords.words('english'))
+space = re.compile('[/(){}\[\]\|@,;]')
+symbols = re.compile('[^0-9a-z #+_]')
 
 def clean_text(text):
-    text = text.lower()
-    text = re.sub(rf'[{string.punctuation}]', '', text)
+    text = symbols.sub(' ', space.sub(' ', text.lower()))
+    text = re.sub(" +", " ", re.sub(r'\d+', ' ', re.sub(rf'[{string.punctuation}]', '', text)))
     tokens = word_tokenize(text)
     tokens = [tok for tok in tokens if tok not in sw]
     tokens = [wnl.lemmatize(tok) for tok in tokens]
@@ -34,22 +36,17 @@ def clean_text(text):
 
 
 data = pd.read_json('../../data/train.json').set_index('Id')
-
-"""
-Prendre un nb de partitions adéquat
-"""
-ddata = dd.from_pandas(data, npartitions = 8)
-
-desc = ddata.loc[:, 'description'].copy()
-desc_clean = desc.apply(clean_text, meta=('description', 'str'))
-
+desc_clean = data.description.map(clean_text)
+gender = data.gender
+del data
 # Vectorisation
 vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(desc_clean)
-matrice_desc = X.toarray()
 
-df = pd.DataFrame(matrice_desc, columns=vectorizer.get_feature_names())
-data_final = pd.concat([df, data.loc[:, 'gender']], axis = 1)
-
-
-
+data_final = pd.concat([
+    pd.DataFrame.sparse.from_spmatrix(X, columns=vectorizer.get_feature_names()),
+    gender
+], axis = 1)
+del desc_clean
+del X
+del gender
