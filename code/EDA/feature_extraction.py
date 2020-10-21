@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Sat Oct 17 11:41:09 2020
@@ -50,3 +49,6 @@ data_final = pd.concat([
 del desc_clean
 del X
 del gender
+
+if __name__ == "__main__":
+    print(data_final.head())
