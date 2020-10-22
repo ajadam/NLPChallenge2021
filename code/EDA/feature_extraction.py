@@ -36,9 +36,9 @@ def clean_text(text):
 
 
 data = pd.read_json('../../data/train.json').set_index('Id')
-labels = pd.read_csv('../../data/train_label.csv', index_col=0, dtype = 'category')
+labels = pd.read_csv('../../data/train_label.csv', index_col='Id', dtype={'Category': 'category'})
 desc = data.loc[:, 'description']
-gender = data.loc[:, 'gender']
+gender = data.loc[:, 'gender'].astype('category')
 del data
 
 # Vectorisation
@@ -65,7 +65,8 @@ features = names[mask].tolist()
 # Ci dessus, je transforme en np.array pour pouvoir plus facilement utiliser le masque booléen du selectKbest
 tfidf = pd.concat([
     pd.DataFrame.sparse.from_spmatrix(f_classif, columns=features),
-    gender], axis=1)
+    gender,
+    labels], axis=1)
 del f_classif
 del gender
 del labels
