@@ -7,6 +7,7 @@ Created on Sat Oct 17 11:41:09 2020
 Remarque importante : ne pas oublier de dl les données nltk en local !!
 """
 import pandas as pd
+import numpy as np
 
 import string
 import re
@@ -53,27 +54,23 @@ la méthode `.fit()` souhaite un array de forme y.shape = (n, ) : https://stacko
 i.e. un array applati. De plus plutôt que `pd.df.values`, il vaut mieux utiliser `pd.df.to_numpy` : https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_numpy.html#pandas.DataFrame.to_numpy, 
 enfin utiliser 'np.ravel()' https://numpy.org/doc/stable/reference/generated/numpy.ravel.html pour applatir l'array.
 """
-select_chi2 = SelectKBest(score_func = chi2, k = 100000)
-select_f_classif = SelectKBest(k = 100000)
-Chi2 = select_chi2.fit_transform(X, labels.to_numpy().ravel())
+select_f_classif = SelectKBest(k = 1000)
 f_classif = select_f_classif.fit_transform(X, labels.to_numpy().ravel())
 del X
 
 # Regroupement
-features_chi2 = pd.concat([
-    pd.DataFrame.sparse.from_spmatrix(Chi2),
-    gender,
-    labels], axis = 1)
-del Chi2
-features_f_classif = pd.concat([
-    pd.DataFrame.sparse.from_spmatrix(f_classif),
-    gender,
-    labels], axis = 1)
+names = np.array(vectorizer.get_feature_names())
+mask = select_f_classif.get_support()
+features = names[mask].tolist()
+# Ci dessus, je transforme en np.array pour pouvoir plus facilement utiliser le masque booléen du selectKbest
+tfidf = pd.concat([
+    pd.DataFrame.sparse.from_spmatrix(f_classif, columns=features),
+    gender], axis=1)
 del f_classif
 del gender
 del labels
 
 if __name__ == "__main__":
-    print(features_chi2.head())
-    print("\n")
-    print(features_f_classif.head())
+    print(features)
+    print("")
+    print(tfidf)
