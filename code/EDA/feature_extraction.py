@@ -38,7 +38,7 @@ def clean_text(text):
 data = pd.read_json('../../data/train.json').set_index('Id')
 labels = pd.read_csv('../../data/train_label.csv', index_col='Id', dtype={'Category': 'category'})
 desc = data.loc[:, 'description']
-gender = data.loc[:, 'gender'].astype('category')
+gender = data.rename(columns={'gender': 'Gender'}).loc[:, 'Gender'].astype('category')
 del data
 
 # Vectorisation
@@ -75,3 +75,5 @@ if __name__ == "__main__":
     print(features)
     print("")
     print(tfidf)
+    
+    # tfidf.to_json("../../data/train_features.json") à utiliser seulement quand on change le résultat.
