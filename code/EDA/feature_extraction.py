@@ -47,14 +47,7 @@ X = vectorizer.fit_transform(desc)
 del desc
 
 #Selection des K meilleurs
-"""
-Explication du "labels.to_numpy().ravel()" :
-
-la méthode `.fit()` souhaite un array de forme y.shape = (n, ) : https://stackoverflow.com/questions/34165731/a-column-vector-y-was-passed-when-a-1d-array-was-expected
-i.e. un array applati. De plus plutôt que `pd.df.values`, il vaut mieux utiliser `pd.df.to_numpy` : https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_numpy.html#pandas.DataFrame.to_numpy, 
-enfin utiliser 'np.ravel()' https://numpy.org/doc/stable/reference/generated/numpy.ravel.html pour applatir l'array.
-"""
-select_f_classif = SelectKBest(k = 1000)
+select_f_classif = SelectKBest(k = 10000)
 f_classif = select_f_classif.fit_transform(X, labels.to_numpy().ravel())
 del X
 
@@ -76,4 +69,5 @@ if __name__ == "__main__":
     print("")
     print(tfidf)
     
-    # tfidf.to_json("../../data/train_features.json") à utiliser seulement quand on change le résultat.
+    # à utiliser seulement quand on change le résultat.
+    tfidf.to_json("../../data/train10k.json") 
