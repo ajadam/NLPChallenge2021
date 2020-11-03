@@ -39,6 +39,7 @@ data = pd.read_json('../../data/train.json').set_index('Id')
 labels = pd.read_csv('../../data/train_label.csv', index_col='Id', dtype={'Category': 'category'})
 desc = data.loc[:, 'description']
 gender = data.rename(columns={'gender': 'Gender'}).loc[:, 'Gender'].astype('category')
+gender = pd.get_dummies(gender, drop_first=True)
 del data
 
 # Vectorisation
@@ -47,7 +48,7 @@ X = vectorizer.fit_transform(desc)
 del desc
 
 #Selection des K meilleurs
-select_f_classif = SelectKBest(k = 10000)
+select_f_classif = SelectKBest(k = 5000)
 f_classif = select_f_classif.fit_transform(X, labels.to_numpy().ravel())
 del X
 
@@ -58,16 +59,14 @@ features = names[mask].tolist()
 # Ci dessus, je transforme en np.array pour pouvoir plus facilement utiliser le masque booléen du selectKbest
 tfidf = pd.concat([
     pd.DataFrame.sparse.from_spmatrix(f_classif, columns=features),
-    gender,
-    labels], axis=1)
+    gender], axis=1)
 del f_classif
 del gender
 del labels
 
-if __name__ == "__main__":
-    print(features)
-    print("")
-    print(tfidf)
-    
+dtype = pd.SparseDtype(float, fill_value=0.)
+tfidf = tfidf.astype(dtype)
+
+if __name__ == "__main__":  
     # à utiliser seulement quand on change le résultat.
-    tfidf.to_json("../../data/train10k.json") 
+    tfidf.to_json("../../data/train5k.json") 
