@@ -6,34 +6,16 @@ Created on Sat Oct 17 11:41:09 2020
 
 Remarque importante : ne pas oublier de dl les données nltk en local !!
 """
+import sys
+sys.path.append("..")
+
 import pandas as pd
 import numpy as np
-
-import string
-import re
-
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectKBest, chi2
 
-
-
-wnl = WordNetLemmatizer()
-sw = set(stopwords.words('english'))
-space = re.compile('[/(){}\[\]\|@,;]')
-symbols = re.compile('[^0-9a-z #+_]')
-
-def clean_text(text):
-    text = symbols.sub(' ', space.sub(' ', text.lower()))
-    text = re.sub(" +", " ", re.sub(r'\d+', ' ', re.sub(rf'[{string.punctuation}]', '', text)))
-    tokens = word_tokenize(text)
-    tokens = [tok for tok in tokens if tok not in sw]
-    tokens = [wnl.lemmatize(tok) for tok in tokens]
-    return " ".join(tokens)
-
+from utils import clean_text
 
 data = pd.read_json('../../data/train.json').set_index('Id')
 labels = pd.read_csv('../../data/train_label.csv', index_col='Id', dtype={'Category': 'category'})

@@ -2,5 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-data/*
+
 .idea/
+__pycache__/
+
+data/*
