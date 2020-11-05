@@ -1,6 +1,7 @@
 import pandas as pd
 
 def makeDataset(inputDirectory, outputDirectory):
+    """creation of a dataset looking like : https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text_dataset_from_directory"""
     PATH = inputDirectory
     df = pd.read_json(PATH+'train.json').set_index('Id')
     labels = pd.read_csv(PATH+'train_label.csv', index_col=0)
