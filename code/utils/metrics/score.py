@@ -8,6 +8,7 @@ __all__ = ['f1', 'Metrics']
 
 from tensorflow.keras import backend as K, callbacks
 from sklearn.metrics import f1_score
+import numpy as np
 
 
 # In[2]:
