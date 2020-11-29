@@ -112,10 +112,10 @@ diff_di: 0.7737307342789295
 RoBERTaModel((None, 200, 1024), (None, 1024)){input_shape:(200,)}
 + StridedSlice(None, 1024){input_shape:(None, 200, 1024)}
 + Dense(None, 28){'softmax'}
-Epoch predict (10)[1:-1] + Ensemble(5)
+Epoch predict (5)[1:-1] + Ensemble(3)
 
-score:
-diff_di:
+score: 0.8334618839224736
+diff_di: 0.5325818331108707
 
 ====================================================================================================================
 Sequence: AlBertTokenizer [description + gender]
