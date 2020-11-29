@@ -80,10 +80,10 @@ diff_di: 0.659909112400355
 RoBERTaModel((None, 200, 1024), (None, 1024)){input_shape:(200,)}
 + StridedSlice(None, 1024){input_shape:(None, 200, 1024)}
 + Dense(None, 28){'softmax'}
-Epoch Predict(5)[1:-1] + Ensemble(5)
+Epoch Predict(5)[1:-1] + Ensemble(2)
 
-score: 
-diff_di:
+score: 0.8344638567144145
+diff_di: 0.658724375399897
 
 --------------------------------------------------------------------------------------------------------------------
 
