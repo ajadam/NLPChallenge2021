@@ -51,4 +51,80 @@ DistilBertForSequenceClassification
 score: 0.7663527136519663
 diff_di: 0.42550281916985827
 
+====================================================================================================================
+Sequence: RoBertaTokenizer [description + gender]
+____________________________________________________________________________________________________________________
+
+(RoBERTa Large)
+RoBERTaModel((None, 200, 1024), (None, 1024)){input_shape:(200,)}
++ StridedSlice(None, 1024){input_shape:(None, 200, 1024)}
++ Dense(None, 28){'softmax'}
+
+score: 0.819131277356412
+diff_di: 0.8334665021035034
+
+--------------------------------------------------------------------------------------------------------------------
+
+(RoBERTa Large)
+RoBERTaModel((None, 200, 1024), (None, 1024)){input_shape:(200,)}
++ StridedSlice(None, 1024){input_shape:(None, 200, 1024)}
++ Dense(None, 28){'softmax'}
+Epoch Predict (5)[1:-1]
+
+score: 0.825401219303585
+diff_di: 0.659909112400355
+
+--------------------------------------------------------------------------------------------------------------------
+
+(RoBERTa Large)
+RoBERTaModel((None, 200, 1024), (None, 1024)){input_shape:(200,)}
++ StridedSlice(None, 1024){input_shape:(None, 200, 1024)}
++ Dense(None, 28){'softmax'}
+Epoch Predict(5)[1:-1] + Ensemble(5)
+
+score: 
+diff_di:
+
+--------------------------------------------------------------------------------------------------------------------
+
+(RoBERTa Large + NLI)
+RoBERTaModel((None, 200, 1024), (None, 1024)){input_shape:(200,)}
++ StridedSlice(None, 1024){input_shape:(None, 200, 1024)}
++ Dense(None, 28){'softmax'}
+
+score: 0.8020172863432001
+diff_di: 0.7895345480628488
+
+--------------------------------------------------------------------------------------------------------------------
+
+(RoBERTa Large + NLI)
+RoBERTaModel((None, 200, 1024), (None, 1024)){input_shape:(200,)}
++ StridedSlice(None, 1024){input_shape:(None, 200, 1024)}
++ Dense(None, 28){'softmax'}
+Epoch predict (10)[1:-1]
+
+score: 0.8313303424539543
+diff_di: 0.7737307342789295
+
+--------------------------------------------------------------------------------------------------------------------
+
+(RoBERTa Large + NLI)
+RoBERTaModel((None, 200, 1024), (None, 1024)){input_shape:(200,)}
++ StridedSlice(None, 1024){input_shape:(None, 200, 1024)}
++ Dense(None, 28){'softmax'}
+Epoch predict (10)[1:-1] + Ensemble(5)
+
+score:
+diff_di:
+
+====================================================================================================================
+Sequence: AlBertTokenizer [description + gender]
+____________________________________________________________________________________________________________________
+
+(albert-base-v2)
+AlBertForSequenceClassification
+
+score: 0.7782101490603489
+diff_di: 0.8924041268324711
+
 --------------------------------------------------------------------------------------------------------------------
