@@ -1,1 +1,1 @@
-from .preprocessing import clean_text
+from .preprocessing import clean_text, TopicLDA
