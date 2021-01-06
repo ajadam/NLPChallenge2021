@@ -9,7 +9,7 @@ import pandas as pd
 from gensim import corpora, models
 from sklearn.exceptions import NotFittedError
 
-from base import clean_text
+from .base import clean_text
 
 class TopicLDA:
     """
