@@ -14,8 +14,12 @@ class BeyondBackTranslator:
     Beyond Back Translation
     """
     def __init__(self, source, intermediate):
+        """
+        source: (str), lang ISO 639-1
+        intermediate: (str), lang ISO 639-1
+        """
         self.source = source
-        self.mid = intermediate
+        self.target = intermediate
         self.client = boto3.client('translate')
         self.oversampled = None
         self.forward, self.generated = None, None
@@ -112,14 +116,12 @@ class BeyondBackTranslator:
         self.oversampled = pd.concat(p).reset_index(drop=True)
     
     
-    def generate(self, X, sX, y, source, target, **kwargs):
+    def generate(self, X, sX, y, **kwargs):
         """
         Generate data by beyond back translation
         X: Series of text to be augmented
         sX: Series variable to be balanced
         y: Series of data target
-        source: (str), lang ISO 639-1
-        target: (str), lang ISO 639-1
         verbose: (int), verbosity level, default 1
         swap: (bool) add data to be swapped when balancing, default True
         """
@@ -132,10 +134,10 @@ class BeyondBackTranslator:
         self.oversampling(X, sX, y)
         if verbose: print("Oversampled data is saved in .oversampled")
         
-        self.forward = self.translate_(self.oversampled, source, target)
+        self.forward = self.translate_(self.oversampled, self.source, self.target)
         if verbose: print("Forward translate data is saved in .forward")
         
-        self.generated = self.translate_(self.forward, target, source)
+        self.generated = self.translate_(self.forward, self.target, self.source)
         if verbose: print("Backward generated data is saved in .generated")
         
         return self.generated
