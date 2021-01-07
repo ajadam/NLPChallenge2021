@@ -2,3 +2,4 @@
 
 from electra import *
 from roberta import *
+from t5 import *
