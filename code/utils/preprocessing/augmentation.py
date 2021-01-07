@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 
 __all__ = [
-    "BeyondBackTranslator"
+    "BeyondBackTranslator",
+    "GenderSwap"
 ]
 
 import pandas as pd
 import numpy as np
 import boto3
 from sklearn.preprocessing import MultiLabelBinarizer
+from gensim.models import Word2Vec
+from gensim import downloader as api
+from nltk.tokenize import word_tokenize
+
 
 class BeyondBackTranslator:
     """
@@ -145,4 +150,91 @@ class BeyondBackTranslator:
 
 
 class GenderSwap:
-    pass
+    """
+    Swap pronouns, nouns and gendered words
+    """
+    
+    def __init__(self, gender_dict, model):
+        """
+        gender_dict: (dict) like {'F': 'female', 'M': 'male'}
+        model: (str), Word2Vec model
+        """
+        assert len(gender_dict) == 2, "Only support binary gender"
+        self.dict = gender_dict
+        self.load_model(model)
+
+
+    def load_model(self, model):
+        if model.endswith(".model"):
+            self.model = Word2Vec.load(model)
+        else:
+            self.model = api.load(model)
+
+
+    def sentswap(sentence, source, target, thres=.5):
+        """
+        Swap sentence gender
+        sentence: (str) to swap
+        source: (str or list) to be substracted
+        target: (str or list) to be added
+        :return: (str)
+        thres: (float) above which swapping is kept
+        """
+        def swapw2v(model, word, source, target, thres):
+            """
+            Swap word gender using w2v and similarity
+            word: (str) to swap
+            *: sentswap args
+            :return: (str)
+            """
+            if not isinstance(source, list): source = [source]
+            if not isinstance(target, list): target = [target]
+            try:
+                sim = model.most_similar(positive=[word, *target],
+                                         negative=source,
+                                         topn=1)[0]
+            except KeyError:
+                sim = (word, 1)
+            else:
+                if word in sim[0] or sim[1] < thres:
+                    sim = (word, 1)
+            return sim[0]
+
+        sent = " ".join(
+            map(lambda x: swapw2v(self.model, x, source, target, thres),
+                word_tokenize(sentence)))
+        return sent
+    
+
+    def generate(self, X, sX, *args, **kwargs):
+        """
+        Generate swapped sentences
+        X: (Series), sentences
+        sX: (Series), gender column
+        thres: (float), similarity threshold to keep the swapping
+        :return: (Series, Series) swapped X, sX
+        """
+        for obj in (X, sX):
+            assert isinstance(obj, pd.Series), f"{obj} must be Series"
+        assert X.shape == sX.shape, "args should have same shapes"
+        thres = kwargs.get('thres', .5)
+        # n_jobs = kwargs.get('n_jobs', 1)
+        
+        swaped, g_list = list(), list()
+        for gender, term in self.dict.items():
+            terms = list(self.dict.items())
+            terms.remove((gender, term))
+            opposite = terms[0][1]
+            sentences = X[sX == gender].to_list()
+            
+            print(f'Swapping for key: {gender}')
+            for i, sent in enumerate(sentences):
+                print(f'Swapped {i+1} of {len(sentences)}', end='\r', flush=True)
+                swaped.append(self.sentswap(
+                    sent, opposite, term, thres
+                ))
+            g_list += [terms[0][0]] * len(sentences)
+            
+        swaped = pd.Series(swaped, name = X.name)
+        g_list = pd.Series(g_list, name = sX.name)
+        return swaped, g_list
