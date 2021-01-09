@@ -1,0 +1,215 @@
+% !TEX cleanPatterns = .log, .out
+\documentclass[8pt, reqno, oneside, twocolumn]{amsart} 
+
+% Utility packages
+\usepackage{etoolbox}
+\newtoggle{tufte}
+\togglefalse{tufte}
+\newtoggle{summary}
+\togglefalse{summary}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{comment}
+% \usepackage[landscape]{geometry}
+\usepackage[top=1cm, bottom=1cm, left=1cm, right=1cm]{geometry}
+% \usepackage[inner=1cm, outer=1cm]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{thmtools}
+\usepackage{xparse}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{todonotes}
+\usepackage{dcolumn}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{colortbl, xcolor}
+\usepackage{longtable}
+\usepackage{accents}
+\usepackage{natbib}
+\usepackage{python}
+\usepackage{bbm}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{mathtools}
+\usepackage{bm}
+
+\hypersetup{colorlinks=true}
+\numberwithin{equation}{section}
+
+\declaretheorem[numbered=no,name=Theorem,style=definition]{thm}
+\declaretheorem[numbered=no,name=Lemma]{lem}
+\declaretheorem[numbered=no,name=Corollary]{corollary}
+\declaretheorem[numbered=no,name=Definition]{defn}
+\declaretheorem[numbered=no,name=Proposition]{proposition}
+\declaretheorem[numbered=no,name=Example]{exmp}
+\declaretheorem[numbered=no,name=Exercise]{exer}
+\declaretheorem[numbered=no,name=History]{history}
+\declaretheorem[numbered=no,name=Question]{question}
+\declaretheorem[numbered=no,name=Remark]{remark}
+\declaretheorem[numbered=no,name=Notation]{notation}
+\declaretheorem[numbered=no,name=Theorem]{boxthm}
+
+\let\proof\relax
+\declaretheorem[style=remark,numbered=no,qed=\qedsymbol]{proof}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\dist}{dist}
+\DeclareMathOperator*{\V}{V}
+\DeclareMathOperator*{\saddlepoint}{sp}
+\DeclareMathOperator{\divergence}{div}
+\DeclareMathOperator*{\sym}{Sym}
+\DeclareMathOperator*{\vol}{Vol}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\proj}{\Pi}
+\DeclareMathOperator*{\bnd}{bnd}
+\DeclareMathOperator*{\supp}{supp}
+\DeclareMathOperator*{\aff}{aff}
+\DeclareMathOperator*{\rint}{rint}
+\DeclareMathOperator*{\lev}{lev}
+\DeclareMathOperator*{\tr}{tr}
+\DeclareMathOperator*{\interior}{int}
+\DeclareMathOperator*{\epi}{epi}
+\DeclareMathOperator*{\dom}{dom}
+\DeclareMathOperator*{\vecspan}{span}
+\DeclareMathOperator*{\con}{con}
+\DeclareMathOperator*{\cl}{cl}
+\DeclareMathOperator{\grad}{\nabla}
+\DeclareMathOperator*{\crit}{crit}
+\DeclareMathOperator*{\diag}{diag}
+\DeclareMathOperator*{\res}{Res}
+\DeclareMathOperator*{\boundary}{boundary}
+\DeclareMathOperator*{\range}{range}
+\DeclareMathOperator*{\Tr}{Tr}
+\DeclareMathOperator*{\sign}{sign}
+\setlist[enumerate]{label=(\roman*)}
+
+\newlist{exercises}{enumerate}{1}
+\setlist[exercises]{label=Ex. \arabic*}
+
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+% \onehalfspacing
+
+\author{Antoine Adam}
+
+
+% Shortcuts
+% convergence in probability
+\newcommand{\cd}{\overset{d}{\rightarrow}}
+% convergence in distribution
+\newcommand{\cp}{\overset{p}{\rightarrow}}
+% convergence almost surely
+\newcommand{\cas}{\overset{as}{\rightarrow}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\np}{\textsc{np}\xspace}
+\newcommand{\iid}{\textsc{iid}\xspace}
+\newcommand{\knn}{$k$-\textsc{nn}\xspace}
+\newcommand{\leqtilde}{\underset{\sim}{<}}
+\newcommand{\ifonlyif}{\Longleftrightarrow}
+
+% Expectation
+\NewDocumentCommand{\E}{gg}{%
+  \IfNoValueTF{#1}
+    {%
+      \mathbb{E}
+    }    
+    {%
+      \IfNoValueTF{#2}
+      {%
+        \mathbb{E}\!\left(#1\right)
+      }
+      {%
+        \mathbb{E}_{#2}\!\left(#1\right)
+      }
+    }%
+}
+
+% Probability with measure P
+\NewDocumentCommand{\Prob}{gg}{%
+  \IfNoValueTF{#1}
+    {%
+      \mathbb{P}
+    }    
+    {%
+      \IfNoValueTF{#2}
+      {%
+        \mathbb{P}\!\left(#1\right)
+      }
+      {%
+        \mathbb{P}_{#2}\!\left(#1\right)
+      }
+    }%
+}
+
+% Probability with measure Q
+\NewDocumentCommand{\Q}{g}{%
+  \IfNoValueTF{#1}
+    {%
+      \mathbb{Q}
+    }    
+    {%
+      \mathbb{Q}\!\left(#1\right)
+    }%
+}
+
+% Indicator
+\NewDocumentCommand{\upperbound}{g}{%
+  \IfNoValueTF{#1}
+    {%
+      \lceil \rceil
+    }    
+    {%
+      \lceil#1\rceil
+    }%
+}
+
+% Indicator
+\NewDocumentCommand{\1}{g}{%
+  \IfNoValueTF{#1}
+    {%
+      \mathbbm{1}
+    }    
+    {%
+      \mathbbm{1}\!\left(#1\right)
+    }%
+}
+
+
+\NewDocumentCommand{\Var}{g}{%
+  \IfNoValueTF{#1}
+    {%
+      \mathbb{V}
+    }    
+    {%
+      \mathbb{V}\!\left(#1\right)
+    }%
+}
+
+
+\NewDocumentCommand{\Cov}{gg}{%
+  \IfNoValueTF{#1}
+    {%
+      \text{Cov}
+    }   
+    {%
+      \text{Cov}\!\left(#1, #2\right)
+    }%
+}
+
+% Inner product
+\NewDocumentCommand{\IP}{g}{%
+    {%
+      \left \langle #1 \right \rangle
+    }%
+}
+%%% Local Variables: 
+%%% mode: latex
+%%% End: 
