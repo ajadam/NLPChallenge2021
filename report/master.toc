@@ -1,6 +1,0 @@
-\contentsline {chapter}{\numberline {1}Ensemble de Roberta-large}{5}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Pourquoi utiliser plusieurs fois la même architecture ?}{5}{section.1.1}%
-\contentsline {subsection}{\numberline {1.1.1}Impact de l'initialisation et de l'ordre des données}{5}{subsection.1.1.1}%
-\contentsline {subsection}{\numberline {1.1.2}Que se passe-t'il derrière le argmax du softmax}{6}{subsection.1.1.2}%
-\contentsline {section}{\numberline {1.2}Ensemble de prédiction après chaque epoch}{6}{section.1.2}%
-\contentsfinish 
