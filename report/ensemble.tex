@@ -10,8 +10,6 @@ Comme nous le voyons sur la figure, les résultats sont assez éparpillés, la s
 Nous choisissons plutôt d'expérimenter avec un protocole que nous pourrions répéter sur l'échantillon d'apprentissage en entier dans le cas où les résultats sont concluant. Plutôt que de choisir des graines, nous essayons de voir si le fait de prendre l'ensemble de plusieurs graines au hasard, est meilleur  qu'une graine toute seule prise au hasard. Ainsi, notre classifier devient : $$ \hat y = \argmax_j \sum_{i=1}^n p_{i,j} $$ où $p_{i,j}$ est la probabilité pour la classe $j$ prédite par le $i$-ème classifier (parmi $n$ graines/classifiers). Le résultats de plusieurs essais est sur la figure ci contre.
 \todo{Afficher la figure mdr}
 
-\subsection{Que se passe-t'il derrière le argmax du softmax}
-\todo{trouver un cas pathologique et afficher l'exemple (calculs en cours)}
 
 \section{Ensemble de prédiction après chaque epoch}
 Les résultats 
