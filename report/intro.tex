@@ -1,9 +1,43 @@
-\chapter{Sample Chapter}
+\chapter{Introduction - Présentation du concours}
 
-\section{Sample Section}
-\label{sec:sample-section}
+Le présent rapport a été rédigé dans le cadre de la cinquième édition du Défi IA organisé par l’INSA Toulouse. Le défi, rassemblant un large panel d’universités de France et de la francophonie, confronte les équipes d’étudiants de ces universités autour de problématiques pouvant être résolues par des méthodes d’apprentissage machine.
 
-\subsection{Sample SubSection}
+Tout comme deux autres organismes universitaires de la région, l’Université Rennes II a pris part à ce concours interuniversitaire en y engageant les étudiants en deuxième année du master de Mathématique Appliqué, Statistiques (MAS) dont nous faisons partie. Cet évènement intervient dans le processus de formation de l’université rennaise.
+
+Antoine Adam, Dylan Monfret et Loïc Rakotoson formons l’équipe « We Tried », avec l’appui des enseignants-chercheurs et encadrant pour ce projet Yann Soullard et Romain Tavenard, pour répondre à la problématique de cette année.
+
+\section{Présentation générale}
+
+Pour cette cinquième édition du Défi IA, l’objectif est d’assigner automatiquement et le plus convenablement possible un métier à une description de métiers. Dans le cadre de ce projet, nous dénombrons 28 métiers assignables. Les intitulés de métiers sont tous issues de données récoltées par Common Crawl, organisation à but non lucratif recueillant de nombreuses données trouvables sur le web pour les mettre à la disposition de la communauté scientifique. Ces données ont été utilisé lors de la conception du modèle de traitement du langage autorégressif GPT-3 (plus précisément l’entrainement de celui-ci). Le Défi IA de cette année relève donc à la fois d’un problème de classification en classe multiple et de traitement naturel du langage.
+
+Cette compétition inclus également quelques contraintes concernant la construction de nos algorithmes :
+
+
+\begin{itemize}
+\item 217 197 intitulés labelisés servent à la phase apprentissage, 54 300 non labélisé pour la phase validation de nos algorithmes et pour les soumissions.
+\item Seules les données fournies peuvent être utilisé dans le cadre du concours.
+\item Et par conséquent, l’ajustement de modèles pré-entrainés doit se faire uniquement avec les données mises à disposition.
+\end{itemize}
+
+Les équipes sont classé dans un premier temps selon le F1 score des prédictions sur le jeu de validation, puis, parmi les 10 meilleures équipes de ce premier classement, sur l’impartialité du classifieurs vis-à-vis du genre. C’est ici qu’intervient une métrique quantifiant l’impartialité d’un algorithme : le Disparate Impact. 
+
+
+\section{Variable sensible & biais de classifieur : introduction du Disparate Impact}
+
+L’équité à l’embauche au regard du genre est une problématique courante dans le monde du travail, et l’introduction de tri préliminaire par apprentissage machine dans le cadre d’embauche n’as pas encore améliorer les choses (notamment concernant les photographies sur les CV pour les personnes de couleurs). Il faut donc construire un classifieur juste. Le classifieur parfaitement juste idéal serait à même de classer les textes donnés sans prise en compte du genre. Ce qui est impossible puisque certaines descriptions décrivent des personnes, et ainsi ces descriptions peuvent être intrinsèquement liés au genre. Et puisque certaines professions connaissent de fortes disparités de genre (pour diverse raison d’ordre sociologique), il serait alors risqué de construire des classifieurs implicitement influencés par le genre. Il faut donc trouver un équilibre entre équité et réalité de chaque métier vis-à-vis du genre. C’est là qu’intervient le Disparate Impact.
+
+Le Disparate Impact est une métrique mesurant comme son nom l’indique la disparité d’un groupe par rapport à une variable sensible. Pour un groupe donné, le DI est égal au rapport entre la proportion d’individu d’un sous-groupe minoritaire sur la proportion d’un sous-groupe majoritaire. C’est une mesure qui oscille entre 1 et 100 (exclus), en supposant que les sous-groupes sont de taille non-nuls. Le DI vaut 1 s’il dans les proportions des dits sous-groupes sont équivalents.
+
+Avec les classifieurs, nous pouvons approcher cette métrique d’un point de vue probabiliste, et ainsi, pour un classifieur $g$, un ensemble de données $X$, une variable cible Y prenant k valeurs possible ${y_1,…,y_k}$ et $S$ comme variable sensible prenant ici 2 modalités ($0$ minoritaire ou $1$ majoritaire), le DI se définit de la sorte :
+
+\begin{itemize}
+\item Pour le classifieur : $DI(g, X, S) = \frac{P(g(X) = y_i | S=0)}{P(g(X) = y_i | S=1)}$
+\item Sur les données réelles : $DI(y_i, X, S) = \frac{P(Y = y_i | S=0)}{P(Y = y_i | S=1)}$
+\end{itemize}
+
+Mais comme dit précédemment, il y a un juste milieu à trouver entre l’équité et la réalité des métiers, ou du moins des données que nous avons a disposition. Le biais intrasèque du jeu de données ne doit pas être altérer. Donc l’objectif n’est pas d’arriver à 1 de disparité pour la mesure $DI\left(g,\ X,\ S\right)$, mais de réduire au minimum la différence absolue entre $DI\left(g,\ X,\ S\right)$ et $DI\left(Y,\ X,\ S\right)$. Le classifieur le plus juste serait donc celui qui minimise la différence suivante :
+
+$$ DI = \sum_{i=1}^{k} | DI(y_i,X,S)- DI(g,X,S)| $$
 
 
 %%% Local Variables: 
