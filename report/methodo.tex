@@ -1,6 +1,14 @@
-\chapter{Ensemble de Roberta-large}
+\chapter{Méthodologie}
 
-\section{Pourquoi utiliser plusieurs fois la même architecture ?}
+\section{Etudes existentes}
+
+
+\section{Ce que nous avons fait}
+
+
+
+\section{Ensemble de Roberta}
+\subsection{Pourquoi utiliser plusieurs fois la même architecture ?}
 Lors de nos premiers essais avec des architectures transformers, qui était avec des petits modèles, de l'ordre d'une cinquantaine de millions de paramètres, rien n'était à signaler, les résultats était stables d'un essai à l'autre, même avec exactement les mêmes hyper-paramètres. Ce n'est que lorsque nous commençons à utiliser des modèles pré-entrainés beaucoup plus large (quelques centaine de millions paramètres) que les résultats deviennent moins stables. Tout d'abord de temps à autre, durant certains tests, la perte d'entrainement se mettait à remonter d'un coup, avec l'accuracy pouvant passer de 80\% à presque 0 en quelques batchs seulement. Une autre instabilité survient dans les résultats, les différences dans le macro f1-score estimé deviennent beaucoup plus grand, comme on le voit sur la figure ci contre...
 \todo{Afficher le boxplot des 15 macro f1-score (en cours de calcul)}
 
@@ -11,7 +19,7 @@ Nous choisissons plutôt d'expérimenter avec un protocole que nous pourrions r�
 \todo{Afficher la figure mdr}
 
 
-\section{Ensemble de prédiction après chaque epoch}
+\subsection{Ensemble de prédiction après chaque epoch}
 Les résultats 
 \todo{work in progress, un graphique avec l'écolution du score n fonction des epochs}
 
