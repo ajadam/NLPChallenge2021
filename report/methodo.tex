@@ -42,7 +42,7 @@ Nous n'avons pas choisi les algorithmes SMOTE, WEMOTE et la suppression de l'axe
 
 La deuxième méthode est l'inversement du genre (GenderSwap\endnote{\href{https://www.aclweb.org/anthology/N18-2003}{Gender Bias in Coreference Resolution: Evaluation and Debiasing Methods}, Zhao, Jieyu  and Wang, Tianlu  and Yatskar, Mark  and Ordonez, Vicente  and Chang, Kai-Wei} \endnote{\href{https://github.com/valleyviolet/gender_swap}{Gender Swap}, https://github.com/valleyviolet}). Cependant, nous n'avons pas utilisé les techniques habituelles avec la NER et les PosTag, mais plutôt des embeddings de Word2vec en appliquant à l'échelle d'une phrase l'opération vectorielle dont l'exemple classique est \texttt{king - male + female = queen}.
 \\
-Pour sur-échantillonner le genre sous-représenté pour un label nous avons sélectionné au hasard la moitié des données du genre ainsi que le quart du genre opposé. Les traductions ont été faites en \texttt{Anglais - Français - Anglais} sur cet échantillon et le GenderSwaping a été appliqué sur les données provenant du quart du genre opposé.
+Pour sur-échantillonner le genre sous-représenté pour un label nous avons sélectionné aléatoirement la moitié des données du genre ainsi que le quart du genre opposé. Les traductions ont été faites en \texttt{Anglais - Français - Anglais} sur cet échantillon et le GenderSwaping a été appliqué en plus sur les données provenant du quart du genre opposé.
 
 \begin{longtable}{l p{4in}}
     &\\
