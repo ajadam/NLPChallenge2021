@@ -18,23 +18,24 @@
     &\kern3pt #\hfil\kern3pt
     &\kern3pt #\hfil\kern3pt
     &\kern3pt #\hfil\kern3pt
+    &\kern3pt #\hfil\kern3pt
     \cr
     \noalign{\hrule height0.8pt}
-     & \textbf{modèle}                      & \textbf{accuracy}& \textbf{precission} & \textbf{recall} & \textbf{F1-score} & \textbf{diff DI} & \textbf{kaggle score}                  \cr
+     & \textbf{modèle}                      & \textbf{accuracy}& \textbf{precission} & \textbf{recall} & \textbf{F1-score} & \textbf{d-DI} & \textbf{score}  & \textbf{DI}  \cr
     \noalign{\hrule}
-     & baseline                   & -        & -          &        & 72.56    & -       & -                             \cr
-     & naive Logistic Regression* & 78.88    & 80.57      & 66.01  & 71.51    & 2.11    & -                             \cr
-     & Linear SVC                 & 80.09    & 77.64      & 73.41  & 75.16    & 0.51    & 75.38                         \cr
-     & LSTM TextCNN               & 77.10    & 69.30      & 65.02  & 66.72    & 1.22    & -                             \cr
-     & Sequential                 & 78.68    & 76.78      & 70.07  & 72.93    & 0.63    & -                             \cr
-     & DistilBERT                 & 82.42    & 79.59      & 74.40  & 76.63    & 0.43    & 79.12                         \cr
-     & RoBERTa + EP               & 86.42    & 83.29      & 82.08  & 82.54    & 0.66    & -                             \cr
-     & RoBERTa + Ensemble         & \textbf{87.27} & 83.98      & 83.12  & 83.44    & 0.65    & 83.48                         \cr
-     & RoBERTa NLI + EP           & 87.02    & 83.64      & 82.77  & 83.13    & 0.77    & -                             \cr
-     & RoBERTa NLI + Ensemble     & 87.18    & 83.71      & 83.06  & 83.34    & 0.53    & -                             \cr
-     & Aug RoBERTa NLI            & 86.96    & 83.28      & 82.87  & 82.98    & \textbf{0.34} & -                             \cr
-     & Aug Ensemble RoBERTa       & 87.12    & \textbf{84.06} & \textbf{83.65} & \textbf{83.85} & 0.51  & \textbf{83.89}        \cr
-     & Electra + EP               & 86.60    & 83.77      & 82.11  & 82.86    & -       & -                            \cr
+     & baseline                   & -        & -          & -      & 72.56    & -       & -   & -                       \cr
+     & naive Logistic Regression* & 78.88    & 80.57      & 66.01  & 71.51    & 2.11    & -   & -                       \cr
+     & Linear SVC                 & 80.09    & 77.64      & 73.41  & 75.16    & 0.51    & 75.38 & 4.26                  \cr
+     & LSTM TextCNN               & 77.10    & 69.30      & 65.02  & 66.72    & 1.22    & -   & -                       \cr
+     & Sequential                 & 78.68    & 76.78      & 70.07  & 72.93    & 0.63    & -   & -                       \cr
+     & DistilBERT                 & 82.42    & 79.59      & 74.40  & 76.63    & 0.43    & 79.12 & \textbf{3.94}         \cr
+     & RoBERTa + EP               & 86.42    & 83.29      & 82.08  & 82.54    & 0.66    & -   & -                       \cr
+     & RoBERTa + Ensemble         & \textbf{87.27} & 83.98      & 83.12  & 83.44    & 0.65    & 83.79  & 4.00           \cr
+     & RoBERTa NLI + EP           & 87.02    & 83.64      & 82.77  & 83.13    & 0.77    & -   & -                      \cr
+     & RoBERTa NLI + Ensemble     & 87.18    & 83.71      & 83.06  & 83.34    & 0.53    & -   & -                       \cr
+     & Aug RoBERTa NLI            & 86.96    & 83.28      & 82.87  & 82.98    & \textbf{0.34} & -  & -                           \cr
+     & Aug Ensemble RoBERTa       & 87.12    & \textbf{84.06} & \textbf{83.65} & \textbf{83.85} & 0.51  & \textbf{83.89}    & 4.01    \cr
+     & Electra + EP               & 86.60    & 83.77      & 82.11  & 82.86    & -       & -   & -                     \cr
     \noalign{\hrule height0.8pt}
     }
     }$$
