@@ -8,3 +8,6 @@ __pycache__/
 
 data/*
 *.log
+*.aux
+report/master.fdb_latexmk
+*.fls
