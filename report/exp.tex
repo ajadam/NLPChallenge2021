@@ -24,6 +24,22 @@ Notre premier modèle, \texttt{Calibrated Linear SVC} performe $+2.9$ points par
 
 Le modèle \texttt{TextCNN} et le réseau \textit{Full-connected} qui suivent ont été proposés par Luiza Sayfullina et al.\endnote{\href{https://arxiv.org/pdf/1707.05576}{Domain Adaptation for Resume Classification Using Convolutional Neural Networks}, Luiza Sayfullina and Eric Malmi and Yiping Liao and Alex Jung} et utilisé ensuite par Tin Van Huynh et al. en enlevant \texttt{FastText} pour prédire à partir des descriptions. Nous avons ajouté une couche Bi-LSTM après la couche d'Embedding, ce qui a amélioré le score de de $10$ points même si les performances ne dépassent pas celles du \texttt{Calibrated Linear SVC}.
 
+% DistilBERT
+\hfill\\
+
+%roberta
+
+%roberta NLI
+Le modèle \texttt{RoBERTa NLI} suit la même architecture que \texttt{RoBERTa} mais entraîné sur \textit{Adversarial NLI}\endnote{\href{https://arxiv.org/abs/1910.14599}{Adversarial NLI: A New Benchmark for Natural Language}, Yixin Nie and Adina Williams and Emily Dinan and Mohit Bansal and Jason Weston and Douwe Kiela} par Facebook. En pratique, la gestion des mots absents du dictionnaire et les fautes d'orthographes est améliorée. On y retrouve les mêmes avantages que \texttt{Fast Text}. Entraîné sur les données augmentées, le modèle baisse le score de $-0.2$ mais possède le $\delta$\texttt{DI} le plus bas.\\
+Le modèle \texttt{Aug Ensemble RoBERTa} est l'application du modèle de \textit{soft voting} sur $20$ modèles de \texttt{RoBERTa} et $24$ de \texttt{RoBERTa NLI} entraînés sur les données augmentées. Nous nottons que si le score \texttt{DI} n'a pas baissé comme attendu, le score \texttt{F1} a été amélioré de $+0.1$ point.
+\hfill\\
+
+%electra
+\hfill\\
+
+%t5
+\hfill\\
+
 \begin{table}[ht!]
 $$\vbox{
 \offinterlineskip
