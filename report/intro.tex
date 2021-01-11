@@ -1,6 +1,6 @@
 \chapter{Introduction - Présentation du concours}
 
-Le présent rapport a été rédigé dans le cadre de la cinquième édition du \href{https://www.kaggle.com/c/defi-ia-insa-toulouse}{Défi IA organisé par l’INSA Toulouse}. Le défi, rassemblant un large panel d’universités de France et de la francophonie, confronte les équipes d’étudiants de ces universités autour de problématiques pouvant être résolues par des méthodes d’apprentissage machine.
+Le présent rapport a été rédigé dans le cadre de la cinquième édition du \href{https://www.kaggle.com/c/defi-ia-insa-toulouse}{Défi IA organisé par l’INSA Toulouse} sur la plate-forme de compétition Data Science et de partage de jeu de données \href{https://www.kaggle.com/docs}{Kaggle}. Le défi, rassemblant un large panel d’universités de France et de la francophonie, confronte les équipes d’étudiants de ces universités autour de problématiques pouvant être résolues par des méthodes d’apprentissage machine.
 \newline
 
 Tout comme deux autres organismes universitaires de la région, l’Université Rennes II a pris part à ce concours inter-universitaire en y engageant les étudiants en deuxième année du Master de Mathématique Appliqué, Statistiques (MAS) dont nous faisons partie. Cet évènement intervient dans le processus de formation de l’université rennaise.
@@ -36,7 +36,7 @@ L’équité à l’embauche au regard du genre est une problématique courante 
 Nous concernant, un classifieur parfaitement juste serait en mesure de classer les textes donnés sans prise en compte du genre. C'est évidement impossible puisque certains intitulés décrivent des individus, des hommes ou femmes, et sont donc genrés. Avec les professions qui connaissent de fortes disparités de genre (pour diverse raison d’ordre sociologique), il serait risqué de construire des classifieurs implicitement influencés par le genre. Il faut donc trouver un équilibre entre équité et réalité de chaque métier vis-à-vis du genre. C’est là qu’intervient le Disparate Impact.
 \newline
 
-Le \textbf{Disparate Impact} est une métrique qui mesure, comme son nom l’indique, la disparité d’un groupe par rapport à une variable sensible. Pour un groupe donné, le \textbf{DI} est égal au rapport entre la proportion d’individu d’un sous-groupe majoritaire sur la proportion d’un sous-groupe minoritaire. C’est une mesure qui oscille donc entre 1 et l'infini, en supposant que les sous-groupes sont de taille non-nuls (cette métrique n'aurait de toute manière pas d'intérêt dans le cas contraire). Par conséquent, le DI vaut 1 s’il dans les proportions des dits sous-groupes sont équivalents.
+Le \textbf{Disparate Impact} est une métrique qui mesure, comme son nom l’indique, la disparité d’un groupe par rapport à une variable sensible. Pour un groupe donné, le \textbf{DI} est égal au rapport entre la proportion d’individu d’un sous-groupe majoritaire sur la proportion d’un sous-groupe minoritaire. C’est une mesure qui oscille donc entre 1 et l'infini, en supposant que les sous-groupes sont de taille non-nuls (cette métrique n'aurait de toute manière pas d'intérêt dans le cas contraire). Par conséquent, le DI vaut 1 s’il dans les proportions des dits sous-groupes sont équivalentes.
 \newline
 
 Avec les classifieurs, nous pouvons approcher cette métrique d’un point de vue probabiliste, et ainsi, pour un classifieur $g$, un ensemble de données $X$, une variable cible $Y$ prenant $k$-modalités possibles $\{y_1, \dots , y_k\}$ et $S$ comme variable sensible prenant ici 2 modalités ($0$ pour le groupe majoritaire ou $1$ pour le minoritaire), le DI se définit de la sorte :
@@ -66,20 +66,18 @@ Mais comme dit précédemment, il y a un juste milieu à trouver entre l’équi
 
 $$ \Delta_{MDI} = | MDI_{g}- MDI_{Y} | $$
 
-\subsection{Le Disparate Impact : un faux problème ?} \hfill
+\subsection{F1-Score \& TOP 10 contre DI \& impartialité} \hfill
 \newline
 
-Une quantité $\Delta_{MDI}$ qui tend vers 0 impliquerait donc un classifieur juste. Mais, nous verrons au cours de l'étude que l'impartialité n'est pas l'objectif immédiat dans la construction de nos classifieurs, nous dirons que c'est un critère que nous surveillons pour savoir si nos classifieurs sont beaucoup trop partiales. Il y la plusieurs raison à ce choix d'orientation :
+Une quantité $\Delta_{MDI}$ de $0$ pour un classifieur impliquerait donc  est juste. Mais, nous verrons au cours de l'étude que l'impartialité n'a pas été l'objectif immédiat dans la construction de nos classifieurs, il s'agit là plutôt d'un critère que nous surveillons pour savoir si nos classifieurs sont beaucoup trop partials. Il y la plusieurs raison à ce choix d'orientation :
 
 \begin{itemize}
 \item Premièrement, l'objectif du concours qu'est d'intégrer un TOP 10 basé sur le F1-Score des soumissions. La priorité est donc de pousser le F1-Score toujours plus proche de 1.
-\item Ensuite, dans le cadre du concours, il nous a été assuré par les organisateurs que les vrais disparités pour chaque métier ne sont pas sensiblement éloignés des disparités des données d'apprentissage. Cela signifie qu'en prédisant le plus justement possible sur le terrain du F1-Score, les DI obtenus pour chaque métier ne seront pas trop éloigné de la réalité lors de nous soumissions sur Kaggle.
 \end{itemize}
 
 \hfill
 
 Maintenant, le sujet des disparités de genre au sein de chaque métier n'as pas été totalement écarté. La disparité sera traitée comme \textbf{un problème de données déséquilibrées} avec une partie de \textbf{d'augmentation de données} expliquée plus en détail dans la section \emph{Méthodologie}.
-
 
 %%% Local Variables: 
 %%% mode: latex
