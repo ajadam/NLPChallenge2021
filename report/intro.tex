@@ -22,6 +22,8 @@ Cette compétition inclus également quelques contraintes concernant la construc
 \item Et par conséquent, l’ajustement de modèles pré-entraînés doit se faire uniquement avec les données mises à disposition.
 \end{itemize}
 
+\hfill
+
 Les équipes participantes sont classées dans un premier temps sur le F1-Score des prédictions effectué avec le jeu de validation ; puis les 10 meilleures équipes du classement précédent sont jugées sur l’impartialité de leur soumission vis-à-vis du genre. Et c'est donc ici qu’intervient une métrique quantifiant l’impartialité d’un algorithme : le Disparate Impact. 
 
 \section{Variable sensible \& biais de classifieur}
@@ -48,7 +50,9 @@ $$DI(g, X, S) = \frac{\mathbb{P}(g(X) = y_i | S=0)}{\mathbb{P}(g(X) = y_i | S=1)
 $$DI(y_i, X, S) = \frac{\mathbb{P}(Y = y_i | S=0)}{\mathbb{P}(Y = y_i | S=1)}$$
 \end{itemize}
 
-Maintenant, puisque l'on traite près d'une trentaine de classe de $Y$ pour notre problème, on s'intéresse plus au \textbf{macro DI}, soit la moyenne des DI pour toutes les modalités possibles $y_1, \dots, y_k$ :
+\hfill
+
+Maintenant, puisque l'on traite près d'une trentaine de classe de $Y$ pour notre problème, on s'intéresse plus au \textbf{macro DI}, soit la moyenne des DI pour toutes les modalités possibles $\{y_1, \dots, y_k\} :$
 
 $$
 MDI_{g} = \frac{1}{k} \sum_{i=1}^{k} DI(g, X, S)
@@ -58,7 +62,7 @@ $$
 MDI_{Y} = \frac{1}{k} \sum_{i=1}^{k} DI(y_i, X, S)
 $$
 
-Mais comme dit précédemment, il y a un juste milieu à trouver entre l’équité et la réalité des métiers, ou du moins des données. Le biais du jeu de données ne doit pas être altérer. Donc l’objectif n’est pas d’arriver à $MDI_{g} = 1$ de disparité moyenne, mais de réduire au minimum la différence absolue entre $MDI_{g}$ et $MDI_{Y}$. Le classifieur le plus juste serait donc celui minimisant la différence suivante :
+Mais comme dit précédemment, il y a un juste milieu à trouver entre l’équité et le biais "naturel" des données. Le biais du jeu de données ne doit pas être altérer. Donc l’objectif n’est pas d’arriver à $MDI_{g} = 1$ de disparité moyenne, mais de réduire au minimum la différence absolue entre $MDI_{g}$ et $MDI_{Y}$. Le classifieur le plus juste serait donc celui minimisant la différence suivante :
 
 $$ \Delta_{MDI} = | MDI_{g}- MDI_{Y} | $$
 
@@ -69,8 +73,12 @@ Une quantité $\Delta_{MDI}$ qui tend vers 0 impliquerait donc un classifieur ju
 
 \begin{itemize}
 \item Premièrement, l'objectif du concours qu'est d'intégrer un TOP 10 basé sur le F1-Score des soumissions. La priorité est donc de pousser le F1-Score toujours plus proche de 1.
-\item # WIP
+\item Ensuite, dans le cadre du concours, il nous a été assuré par les organisateurs que les vrais disparités pour chaque métier ne sont pas sensiblement éloignés des disparités des données d'apprentissage. Cela signifie qu'en prédisant le plus justement possible sur le terrain du F1-Score, les DI obtenus pour chaque métier ne seront pas trop éloigné de la réalité lors de nous soumissions sur Kaggle.
 \end{itemize}
+
+\hfill
+
+Maintenant, le sujet des disparités de genre au sein de chaque métier n'as pas été totalement écarté. La disparité sera traitée comme \textbf{un problème de données déséquilibrées} avec une partie de \textbf{d'augmentation de données} expliquée plus en détail dans la section \emph{Méthodologie}.
 
 
 %%% Local Variables: 
