@@ -63,13 +63,24 @@ Pour les modèles classiques, nous avons opté pour la représentation TF-IDF du
 Nous avons donc effectué un benchmark naïf sur les modèles classiques de classifications et nous avons observé \texttt{Linear SVC} et \texttt{Ridge Classifier} se démarquer. Ces deux modèles ont donc été optimisés chacun par la méthode \textit{Nested GridSearchCV} sur \textsf{5} folds internes et \textsf{3} folds externes. Le modèle du machine à vecteur support est celui qui a le mieux performé en terme de F1-score et de Disparate Impact. Toutefois, le modèle tel quel ne produit pas de logits à la prédiction, nécessaire aux méthodes d'ensembles qu'on envisage pour la suite.\\
 La méthode \texttt{Calibrated CV} donne les probabilités d'obtenir à une classe dans un problème à multi-classe en utilisant une méthode d'ensemble sur un estimateur de base déjà entraîné. Cette calibration a légèrement amélioré les performances de \texttt{Linear SVC} lors de la phase de test.
 
-\hfill\\
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.8\textwidth]{Linear SVC.png}
+\caption{Structure du modèle \texttt{Calibrated Linear SVC}}
+\end{figure}
+\newpage
+
 \subsubsection{Roberta}
 \hfill\\
 
 Le modèle \endnote{\href{https://arxiv.org/pdf/1907.11692.pdf}{RoBERTa}, Yinhan Liu et al. 2019} est un modèle de transformer basé sur BERT. L'architecture est la même, mais certains changements sur le prétraitement des données sont appliquées, comme le masquage dynamique, une taille de batch plus importante, et un encodage BPE plus large. Aussi, ce modèle est entrainé avec plus de passes, et sur un corpus plus important. \\
 De manière générale, RoBERTa (ou d'autres transformers), après quelques epochs de fine-tuning, permettent d'arriver à un F1-score beaucoup plus grand, et surtout ces modèles (surtout ls plus larges avec 300M ou plus paramètres) semblent moins sensible au déséquilibre des classes cibles. Cependant, comme nous le présentons plus en détail plus loin, quelques problèmes d'instabilité commencent à apparaitre sur ces gros modèles.
-
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.9\textwidth]{Roberta.png}
+\caption{Structure du modèle \texttt{Roberta}}
+\end{figure}
+\newpage
 \hfill\\
 \subsubsection{Electra}
 \hfill\\
@@ -86,6 +97,11 @@ Le modèle T5 est un modèle de transformer encoder-decoder créé par GoogleAI\
 Dans notre cas, l'encoder reçoit la description, une séquence d'environ 190 tokens, et le décode en nom de poste, soit un séquence de 4 tokens pour notre problème. L'avantage par rapport aux modèles de classification précédents réside dans le fait que le modèle obtient aussi des informations provenant de la représentation du label lors de l'entraînement, au lieu d'un unique chiffre.
 Le revers, c'est l'espace de génération du modèle qui s'étend théoriquement sur tous les mots de la langue anglaise, ce qui donne des labels qui n'existent pas dans nos données mais qui s'en rapprochent.\\
 Nous avions par exemples, pour "\textit{yoga teacher}", les dénominations "\textit{pilates coach}" et "\textit{meditation teacher}". Pour re-calibrer les données, les scores de similarités basés sur les synonymes avec \texttt{wordnet} aux labels sont calculés sur les sorties générées. Dans notre cas, les labels sont assez disparates et les différentes dénominations des sorties sont rares.
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.9\textwidth]{t5.png}
+\caption{Structure du modèle \texttt{T5}}
+\end{figure}
 
 \hfill\\
 \subsubsection{La méthode d'ensemble}

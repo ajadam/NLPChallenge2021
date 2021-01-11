@@ -16,7 +16,7 @@ Seul la \texttt{Calibrated Linear SVC} a été optimisé en observant le score \
 Pour la phase de test, $\delta$\texttt{DI} a été introduite dans la \texttt{classification report}. Pour comparer les différents modèles, nous observons donc le score \texttt{F1} et $\delta$\texttt{DI}
 
 \section{Evaluation des performances}
-Les résultats sont données dans la table \ref{table:1}, où les 5 premières mesures sont calculées sur l'échantillon de test et les 2 dernières sur la soumission pour la compétition.
+Les résultats sont données dans la table \ref{table:1}, où les 5 premières variables sont calculées sur l'échantillon de test et les 2 dernières sur la soumission pour la compétition.
 \hfill\\
 
 Notre premier modèle, \texttt{Calibrated Linear SVC} performe $+2.9$ points par rapport à la baseline et réduit de $4$ fois le $\delta$\texttt{DI} par rapport à la régression logistique de la démonstration. Il s'agit du seul modèle qui tourne rapidement sur CPU et est le moins lourd.
