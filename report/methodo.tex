@@ -74,6 +74,8 @@ De manière générale, RoBERTa (ou d'autres transformers), après quelques epoc
 \subsubsection{Electra}
 \hfill\\
 
+Le modèle  \endnote{\href{https://arxiv.org/pdf/2003.10555.pdf}{Electra}, Kevin Clark et al. 2020} est un modèle lui aussi basé sur BERT, mais à la place du token [MASK], les auteurs proposent de remplacer certains tokens par des mots corrompus (créés par un générateur), et de préentrainer le modèle comme un discriminateur. Malheureusement nous avons commencer à nous intéresser à celui là un peu tard. Et puisque le fine-tuning était très long, nous n'avons pas pu l'expérimenter beaucoup même si les résultats étaient prometteurs.
+
 \hfill\\
 \subsubsection{Le modèle générateur T5}
 \hfill\\
