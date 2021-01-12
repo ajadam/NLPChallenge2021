@@ -3,10 +3,9 @@ AI Challenge hosted by INSA-Toulouse
 
 ## TLDR :
 
-* Ensemble of RoBERTa-large
+* Ensemble of RoBERTa-large : 20 x RoBERTa-large fine tuned on full train dataset & 24 x RoBERTa NLI fine tuned on augmented dataset
 * No preprocessing (on text)
 * WeTried to use Beyond-Back Translation & GenderSwap methods in order to tackle the fairness problem.
-* Our last solution is a soft-voting classifier of 20 x RoBERTa-large fine tuned on full train dataset & 24 x RoBERTa NLI fine tuned on augmented dataset (see the preprocessing and training notebooks)
 * For the fine tuning part, we trained on Kaggle TPUs
 
 ## Report
