@@ -16,6 +16,10 @@ AI Challenge hosted by INSA-Toulouse
 - [TPU-RoBERTa](/notebooks/tpu-roberta-large.ipynb): How we specifically trained Large RoBERTa's weights
 - [Submission](/notebooks/submission-ensemble.ipynb): Template notebook we used for Assemble.
 
+## Insights :
+
+We use ideas from the winning team of [Jigsaw multilingual toxic comment classification](https://www.kaggle.com/c/jigsaw-multilingual-toxic-comment-classification/discussion/160862) in order to mitigate the variability. What we do is a soft-voting classifier of multiple RoBERTa-large predictions, the models only differs in the random seed used for initialization of the last layer. In addition, we also make a prediction after each epoch, and average them for the final prediction. This removed the need to pick a best epoch for predictions, which is pretty big.
+
 ## Datasets:
 - We saved all datasets produced by [`Preprocessing`](/notebooks/Preprocessing.ipynb) notebook [here](https://drive.google.com/drive/folders/1QyPvtM-cVdtwztnyWsLMFQAT8Bejv0nd?usp=sharing)
 - The difference between those data are explained in [`Training`](/notebooks/Training.ipynb) notebook (and links for the weights)
@@ -23,6 +27,3 @@ AI Challenge hosted by INSA-Toulouse
 ## Validation strategy :
 We did not do any cross-validation, we quickly noticed that a simple hold-out sample was enough to evaluate our models, because the score on the public LB was very close to the one estimated with our hold-out strategy.
 
-## Insights :
-
-We use ideas from the winning team of [Jigsaw multilingual toxic comment classification](https://www.kaggle.com/c/jigsaw-multilingual-toxic-comment-classification/discussion/160862) in order to mitigate the variability. What we do is a soft-voting classifier of multiple RoBERTa-large predictions, the models only differs in the random seed used for initialization of the last layer. In addition, we also make a prediction after each epoch, and average them for the final prediction. This removed the need to pick a best epoch for predictions, which is pretty big.
