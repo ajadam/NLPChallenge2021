@@ -1,0 +1,79 @@
+\chapter{Expérimentations}
+
+\section{Entraînement des modèles}
+\label{sec:entrainement}
+Le score \texttt{macro-F1} et la différence de Disparate Impact $\delta$\texttt{DI} sont les métriques utilisées pour classer les performances des équipes dans la compétition. C'est tout naturellement que nous choisissons donc le score \texttt{F1} pour évaluer les performances de nos modèles.
+
+Cependant, la métrique utilisé lors de l'entraînement est l'\texttt{accuracy}, ou plus précisément la \texttt{SparseCategoricalAccuracy} implémentée par Tensorflow. En effet, la mesure du score \texttt{F1}, même avec un callback personnalisé, ne s'effectue que sur le dernier batch vu lors de l'epoch, ce qui donne une information incomplète de la performance du modèle.\\
+Ainsi , pour les modèles avec les couches transformers, nous observons les performances sur l'échantillon de validation par rapport à la fonction de perte \texttt{SparseCategoricalCrossEntropy} et gardons l'information donnée par l'\texttt{accuracy}.\\
+
+En particulier, pour DistilBERT et RoBERTa, nous expérimentons rapidement, en particulier sur la learning rate (nous avons tenté de jouer sur la taille des batchs, mais nous étions rapidement limité par la mémoire GPU ou TPU disponible). Pour la learning-rate, il a fallu prendre un peu de temps pour trouver une valeur qui apporte de bons résultats des la première epoch (pour la méthode d'ensemble) car nous voulions être sur de pouvoir sommer dès la première epoch. Finalement pour RoBERTa, nous retenons une learning rate de 1.5e-5. Puisque nous avons une limite de temps d'utilisation des TPUs sur Kaggle, nous ne pouvons pas vraiment faire beaucoup d'expérimentations. Mais nous remarquons rapidement que les résultats pour le modèle large avec 350M de paramètres tournent autour de 0.82, cependant ils sont assez instables. Nous avons donc tenté les deux techniques d'ensemble (sur les epochs et sur les graines aléatoire) sur seulement 5 graines aléatoire différentes et 5 epochs pour chacune de ces graines. Ce qui fait en tout 25 prédictions différentes. Cependant, même avec aussi peut le résultat semble assez spectaculaire par rapport au précédents essais : le fait de prédire après chaque epoch permet de toujours être au dessus de 0.83 de F1-score, et le fait de le faire avec des graines aléatoires différentes permet de se rapprocher de 0.84.
+
+Pour le modèle T5, l'\texttt{accuracy} est plutôt calculé par \texttt{SparseTopKCategoricalCrossEntropy} qui calcule la fréquence d'apparition d'un token dans les $k$ prédictions, où $k = 5$.\\
+Seul la \texttt{Calibrated Linear SVC} a été optimisé en observant le score \texttt{F1}
+\hfill\\
+
+Pour la phase de test, $\delta$\texttt{DI} a été introduite dans la \texttt{classification report}. Pour comparer les différents modèles, nous observons donc le score \texttt{F1} et $\delta$\texttt{DI}
+
+\section{Evaluation des performances}
+Les résultats sont données dans la table \ref{table:1}, où les 5 premières variables sont calculées sur l'échantillon de test et les 2 dernières sur la soumission pour la compétition.
+\hfill\\
+
+Notre premier modèle, \texttt{Calibrated Linear SVC} performe $+2.9$ points par rapport à la baseline et réduit de $4$ fois le $\delta$\texttt{DI} par rapport à la régression logistique de la démonstration. Il s'agit du seul modèle qui tourne rapidement sur CPU et est le moins lourd.
+\hfill\\
+
+Le modèle \texttt{TextCNN} et le réseau \textit{Full-connected} qui suivent ont été proposés par Luiza Sayfullina et al.\endnote{\href{https://arxiv.org/pdf/1707.05576}{Domain Adaptation for Resume Classification Using Convolutional Neural Networks}, Luiza Sayfullina and Eric Malmi and Yiping Liao and Alex Jung} et utilisé ensuite par Tin Van Huynh et al. en enlevant \texttt{FastText} pour prédire à partir des descriptions. Nous avons ajouté une couche Bi-LSTM après la couche d'Embedding, ce qui a amélioré le score de de $10$ points même si les performances ne dépassent pas celles du \texttt{Calibrated Linear SVC}.
+
+%roberta NLI
+Le modèle \texttt{RoBERTa NLI} suit la même architecture que \texttt{RoBERTa} mais entraîné sur \textit{Adversarial NLI}\endnote{\href{https://arxiv.org/abs/1910.14599}{Adversarial NLI: A New Benchmark for Natural Language}, Yixin Nie and Adina Williams and Emily Dinan and Mohit Bansal and Jason Weston and Douwe Kiela} par Facebook. En pratique, la gestion des mots absents du dictionnaire et les fautes d'orthographes est améliorée. On y retrouve les mêmes avantages que \texttt{Fast Text}. Entraîné sur les données augmentées, le modèle baisse le score de $-0.2$ mais possède le $\delta$\texttt{DI} le plus bas.\\
+Le modèle \texttt{Aug Ensemble RoBERTa} est l'application du modèle de \textit{soft voting} sur $20$ modèles de \texttt{RoBERTa} et $24$ de \texttt{RoBERTa NLI} entraînés sur les données augmentées. Nous nottons que si le score \texttt{DI} n'a pas baissé comme attendu, le score \texttt{F1} a été amélioré de $+0.1$ point.
+\hfill\\
+
+Nous avons constaté que le modèle \texttt{T5} génère entre $0.1\%$ à $0.2\%$ de dénominations de postes qui ne sont pas présentes dans les labels. La structure du modèle \textit{small} (60 millions de paramètres) performe avec un score \texttt{F1} de 72.80 et un $\delta$\texttt{DI} de 0.60. La structure \textit{base} (220 million de paramètres) augmente le score de $+7.5$ points avec $80.31$ de \texttt{F1} et réduit le biais en donnant $0.50$ de $\delta$\texttt{DI}.\\
+Les resultats de Colin Raffel et al. ont démontré que la performance du modèle \texttt{T5} augmente avec sa compléxité. Cependant, nous n'avons pas assez de ressources pour entraîner les structures \textit{3B} (3 milliards de paramètres) et \textit{11B} (11 milliards de paramètres).
+\hfill\\
+
+\begin{table}[ht!]
+$$\vbox{
+\offinterlineskip
+\halign{
+\strut
+\vrule height1ex depth1ex width0px #
+&\kern3pt #\hfil\kern3pt\vrule
+&\kern3pt #\hfil\kern3pt
+&\kern3pt #\hfil\kern3pt
+&\kern3pt #\hfil\kern3pt
+&\kern3pt #\hfil\kern3pt
+&\kern3pt #\hfil\kern3pt
+&\kern3pt #\hfil\kern3pt
+&\kern3pt #\hfil\kern3pt
+\cr
+\noalign{\hrule height0.8pt}
+ & \textbf{modèle}            & \textbf{accuracy}& \textbf{precission} & \textbf{recall} & \textbf{F1-score} & $\delta$\textbf{DI} & \textbf{score}  & \textbf{DI}  \cr
+\noalign{\hrule}
+ & baseline                   & -        & -          & -      & 72.56    & -       & -   & -                       \cr
+ & naive Logistic Regression* & 78.88    & 80.57      & 66.01  & 71.51    & 2.11    & -   & -                       \cr
+ & \textbf{Calibrated Linear SVC}  & 80.09    & 77.64      & 73.41  & 75.16    & 0.51    & 75.38 & 4.26                  \cr
+ & LSTM TextCNN               & 77.10    & 69.30      & 65.02  & 66.72    & 1.22    & -   & -                       \cr
+ & Sequential                 & 78.68    & 76.78      & 70.07  & 72.93    & 0.63    & -   & -                       \cr
+ & \textbf{DistilBERT}                 & 82.42    & 79.59      & 74.40  & 76.63    & 0.43    & 79.12 & \textbf{3.94}         \cr
+ & RoBERTa + EP               & 86.42    & 83.29      & 82.08  & 82.54    & 0.66    & -   & -                       \cr
+ & \textbf{RoBERTa + Ensemble}         & \textbf{87.27} & 83.98      & 83.12  & 83.44    & 0.65    & 83.79  & 4.00           \cr
+ & RoBERTa NLI + EP           & 87.02    & 83.64      & 82.77  & 83.13    & 0.77    & -   & -                      \cr
+ & RoBERTa NLI + Ensemble     & 87.18    & 83.71      & 83.06  & 83.34    & 0.53    & -   & -                       \cr
+ & Aug RoBERTa NLI            & 86.96    & 83.28      & 82.87  & 82.98    & \textbf{0.34} & -  & -                           \cr
+ & \textbf{Aug Ensemble RoBERTa}       & 87.12    & \textbf{84.06} & \textbf{83.65} & \textbf{83.85} & 0.61  & \textbf{83.89}    & 4.01    \cr
+ & Electra + EP               & 86.60    & 83.77      & 82.11  & 82.86    & -       & -   & -                     \cr
+ & T5 + EP                    & 85.31    & 82.54      & 78.18  & 80.31    & 0.50    & -   & -                     \cr
+\noalign{\hrule height0.8pt}
+}
+}$$
+\caption{Résultats des modèles}
+\label{table:1}
+\end{table}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: master
+%%% End: 

@@ -1,9 +1,9 @@
 ---
-title: "Job category classification and Disparate impact"
+title: "Job category classification and Gender disparate impact"
 author:
+  - Loïc Rakotoson
   - Antoine Adam
   - Dylan Monfret
-  - Loïc Rakotoson
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 bibliography: [../monitor/soa.bib, ../monitor/disparateimpact.bib]
