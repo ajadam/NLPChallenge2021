@@ -6,7 +6,8 @@ AI Challenge hosted by INSA-Toulouse
 * Ensemble of RoBERTa-large
 * No preprocessing (on text)
 * WeTried to use Beyond-Back Translation & GenderSwap methods in order to tackle the fairness problem.
-* Our last solution is an soft-voting classifier of 20 x RoBERTa-large fine tuned on full train dataset & 24 x RoBERTa NLI fine tuned on augmented dataset (see the preprocessing and training datasets)
+* Our last solution is a soft-voting classifier of 20 x RoBERTa-large fine tuned on full train dataset & 24 x RoBERTa NLI fine tuned on augmented dataset (see the preprocessing and training notebooks)
+* For the fine tuning part, we trained on Kaggle TPUs
 
 ## Report
 [**Fairness and Job description classification**](/report/master.pdf) (FR)
