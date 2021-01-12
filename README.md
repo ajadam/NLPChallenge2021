@@ -9,7 +9,7 @@ AI Challenge hosted by INSA-Toulouse
 * WeTried to use Beyond-Back Translation & GenderSwap methods in order to tackle the fairness problem.
 
 ## Validation strategy :
-We did not do any cross-validation, because we quickly noticed that a simple hold-out sample was enough to evaluate our models, because the score on the public LB was very close to the one estimated with our hold-out strategy.
+We did not do any cross-validation, we quickly noticed that a simple hold-out sample was enough to evaluate our models, because the score on the public LB was very close to the one estimated with our hold-out strategy.
 
 
 ## Insights :
