@@ -171,7 +171,7 @@ class GenderSwap:
             self.model = api.load(model)
 
 
-    def sentswap(sentence, source, target, thres=.5):
+    def sentswap(self, sentence, source, target, thres=.5):
         """
         Swap sentence gender
         sentence: (str) to swap
