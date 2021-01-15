@@ -1,7 +1,7 @@
 # NLPChallenge2021
 AI Challenge hosted by INSA-Toulouse
 
-## TLDR :
+## TL;DR :
 
 * Ensemble of RoBERTa-large : 20 x RoBERTa-large fine tuned on full train dataset & 24 x RoBERTa NLI fine tuned on augmented dataset
 * No preprocessing (on text)
